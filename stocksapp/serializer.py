@@ -7,6 +7,7 @@ class StockSerializer(serializers.ModelSerializer):
         fields = ['symbol', 'sector', 'name', 'created_at']
 
 class StockPriceSerializer(serializers.ModelSerializer):
+    stock = StockSerializer(read_only=True)
     class Meta:
         model = StockPrice
         fields = ['stock', 'date', 'open', 'close', 'high', 'low', 'volume']
