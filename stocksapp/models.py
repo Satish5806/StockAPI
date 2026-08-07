@@ -1,8 +1,12 @@
 from django.db import models
 from datetime import datetime, date
-
+from django.contrib.auth import get_user_model
+from django.db.models import constraints
 
 # Create your models here.
+User = get_user_model()
+
+
 class Stock(models.Model):
     symbol = models.CharField(max_length=20)
     sector = models.CharField(max_length=20)
@@ -25,3 +29,18 @@ class StockPrice(models.Model):
         return f'{self.stock.symbol}-{self.date}'
 
 
+class Watchlist(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='watchlists')
+    stock = models.ForeignKey(Stock, on_delete=models.CASCADE, related_name='watched_by')
+    created_at = models.DateTimeField(auto_now_add= True)
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields = ['user', 'stock'],
+                name='unique_user_stock',
+            )
+        ]
+
+    def __str__(self):
+        return f'{self.user.username}-{self.stock.symbol}'
