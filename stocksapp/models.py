@@ -6,7 +6,6 @@ from django.db.models import constraints
 # Create your models here.
 User = get_user_model()
 
-
 class Stock(models.Model):
     symbol = models.CharField(max_length=20)
     sector = models.CharField(max_length=20)
@@ -15,6 +14,7 @@ class Stock(models.Model):
 
     def __str__(self):
         return self.symbol
+
 
 class StockPrice(models.Model):
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)

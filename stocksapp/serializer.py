@@ -3,6 +3,7 @@ from .models import Stock, StockPrice, Watchlist
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
+
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True) #To hide password in the response
     class Meta:
@@ -18,15 +19,18 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
         return user
 
+
 class StockSerializer(serializers.ModelSerializer):
     class Meta:
         model = Stock
         fields = ['symbol', 'sector', 'name', 'created_at']
+    
 
 class StockPriceSerializer(serializers.ModelSerializer):
     class Meta:
         model = StockPrice
         fields = ['stock', 'date', 'open', 'close', 'high', 'low', 'volume']
+
 
 class WatchlistSerializer(serializers.ModelSerializer):
     stock = StockSerializer(read_only=True)
