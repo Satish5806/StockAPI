@@ -15,6 +15,9 @@ class Stock(models.Model):
     def __str__(self):
         return self.symbol
 
+    class Meta:
+        ordering = ['symbol']
+
 
 class StockPrice(models.Model):
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
